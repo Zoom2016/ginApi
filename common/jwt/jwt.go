@@ -22,7 +22,7 @@ func init() {
 	mySigningKey = []byte(config.Viper.GetString("token.key"))
 }
 
-func (this Jwt) CreateToken(UserId int) (string, error) {
+func (j Jwt) CreateToken(UserId int) (string, error) {
 	claims := MyCustomClaims{
 		UserId,
 		jwt.StandardClaims{
@@ -35,7 +35,7 @@ func (this Jwt) CreateToken(UserId int) (string, error) {
 	return ss, err
 }
 
-func (this Jwt) ValidateToken(token string) (int, error) {
+func (j Jwt) ValidateToken(token string) (int, error) {
 	result, err := jwt.ParseWithClaims(token, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return mySigningKey, nil
 	})

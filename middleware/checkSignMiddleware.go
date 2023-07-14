@@ -35,6 +35,7 @@ func (this CheckSignMiddleware) Handle() gin.HandlerFunc {
 			key+body+key,
 		)
 		myLogger.Println(signPreStr)
+		//myLogger.Println(sign)
 		if sign != paramSign {
 			panic(&response.Response{
 				Code: enum.CodeSignError,
