@@ -71,7 +71,7 @@ func new() *logWrite {
 func (l *logWrite) setLogfile() error {
 	timeNow := time.Now()
 	year, month, day := timeNow.Date()
-	hour := timeNow.Hour()
+	//hour := timeNow.Hour()
 	dir := fmt.Sprintf("logs/%d%02d", year, month)
 
 	//锁住，防止并发时，多次执行创建。os.MkdirAll在目录存在时，也不会返回错误，锁不锁都行
@@ -82,7 +82,8 @@ func (l *logWrite) setLogfile() error {
 		return err
 	}
 
-	logfile := fmt.Sprintf("%s/%d%02d%02d%02d.log", dir, year, month, day, hour)
+	//logfile := fmt.Sprintf("%s/%d%02d%02d%02d.log", dir, year, month, day, hour)
+	logfile := fmt.Sprintf("%s/%d%02d%02d.log", dir, year, month, day)
 	//打开新的日志文件，用于写入
 	fp, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
