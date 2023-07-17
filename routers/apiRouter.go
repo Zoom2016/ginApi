@@ -11,7 +11,7 @@ type ApiRouter struct{}
 
 func (this ApiRouter) Router(r *gin.Engine) {
 	apiGroup := r.Group("/api",
-		middleware.CheckSignMiddleware{}.Handle(),
+		//middleware.CheckSignMiddleware{}.Handle(),
 		middleware.CheckTokenMiddleware{}.Handle(),
 		middleware.CheckJwtMiddleware{}.Handle())
 	{
@@ -22,7 +22,8 @@ func (this ApiRouter) Router(r *gin.Engine) {
 		apiGroup.Any("/order/lists", api.OrderController{}.Lists)
 	}
 
-	signGroup := r.Group("/api", middleware.CheckSignMiddleware{}.Handle())
+	//signGroup := r.Group("/api", middleware.CheckSignMiddleware{}.Handle())
+	signGroup := r.Group("/api")
 	{
 		signGroup.Any("/user/login", api.UserController{}.Login)
 		signGroup.Any("/user/add", api.UserController{}.Add)
