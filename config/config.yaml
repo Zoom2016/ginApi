@@ -10,8 +10,8 @@ redis:
     host: 172.16.81.89
     port: 6379
 token:
-    type: jwt #token、jwt
-    key: ukwfE14NEkxQ0ja1yePwU0HABcTIB0gs #jwt的秘钥
-    length: 32 #token的长度
-    expire: 7200
+    type: jwt # token类型: token、jwt
+    key: ukwfE14NEkxQ0ja1yePwU0HABcTIB0gs # jwt的秘钥
+    length: 32 # token的长度
+    expire: 86400 # token有效期，单位秒
 signKey: abc123

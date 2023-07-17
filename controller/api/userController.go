@@ -29,6 +29,7 @@ func (this UserController) Lists(c *gin.Context) {
 	response.Success(c, &response.Response{Data: data})
 }
 
+// Add 新增用户
 func (this UserController) Add(c *gin.Context) {
 	var param service.AddParam
 	if err := c.ShouldBindBodyWith(&param, binding.JSON); err != nil {
@@ -67,6 +68,7 @@ func (this UserController) Del(c *gin.Context) {
 	})
 }
 
+// Login 用户登陆
 func (this UserController) Login(c *gin.Context) {
 	var loginParam service.LoginParam
 	err := c.ShouldBindBodyWith(&loginParam, binding.JSON)
@@ -75,9 +77,10 @@ func (this UserController) Login(c *gin.Context) {
 	}
 	data, _ := service.UserService{}.Login(&loginParam)
 
-	// 生成token
+	// 根据配置文件中的类型(token.type)，生成token
 	var token string
 	if config.Viper.GetString("token.type") == "jwt" {
+		// 生成jwt token
 		result, err := jwt.Jwt{}.CreateToken(data.Id)
 		if err != nil {
 			response.Fail(c, &response.Response{Code: enum.CodeParamError, Msg: enum.ErrMsg[enum.CodeSystemError]})
@@ -85,6 +88,7 @@ func (this UserController) Login(c *gin.Context) {
 		}
 		token = result
 	} else if config.Viper.GetString("token.type") == "token" {
+		// 生成指定长度(token.length)的随机token
 		var res map[string]string
 		for {
 			token = tools.RandString(config.Viper.GetInt("token.length"))
@@ -95,11 +99,12 @@ func (this UserController) Login(c *gin.Context) {
 				break
 			}
 		}
+		// 将token保存至Redis缓存
 		models.RedisDb.HMSet("token:"+token, map[string]interface{}{
 			"userId": data.Id,
 			"token":  token,
 		})
-
+		// 设置token有效期(token.expire)
 		models.RedisDb.Expire(
 			"token:"+token,
 			time.Duration(config.Viper.GetInt64("token.expire"))*time.Second,

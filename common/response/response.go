@@ -16,11 +16,11 @@ import (
 // timestamp 时间戳
 
 type Response struct {
-	Code      int         `json:"code"`
-	Msg       string      `json:"msg"`
-	Data      interface{} `json:"data"`
-	Logid     string      `json:"logid"`
-	Timestamp int64       `json:"timestamp"`
+	Code      int    `json:"code"`
+	Msg       string `json:"msg"`
+	Data      any    `json:"data"`
+	Logid     string `json:"logid"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 // New 初始化默认值

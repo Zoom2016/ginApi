@@ -23,10 +23,12 @@ func init() {
 }
 
 func (j Jwt) CreateToken(UserId int) (string, error) {
+	expiredAt := time.Now().Unix() + config.Viper.GetInt64("token.expire")
+	//fmt.Println("expired time", expiredAt)
 	claims := MyCustomClaims{
 		UserId,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Unix() + config.Viper.GetInt64("token.expire"),
+			ExpiresAt: expiredAt,
 			Issuer:    "admin",
 		},
 	}
