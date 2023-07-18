@@ -34,6 +34,7 @@ func (this CheckJwtMiddleware) Handle() gin.HandlerFunc {
 			})
 		}
 
+		// 这里在Context上下文对象中写入当前userId，后面查询订单时会用到
 		c.Set("userId", userId)
 		c.Next()
 	}

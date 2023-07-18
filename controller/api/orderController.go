@@ -20,6 +20,7 @@ func (this OrderController) Lists(c *gin.Context) {
 		tools.GetError(err, param)
 		return
 	}
+	// 这里的userId是middleware中设置的当前用户Id, 例:c.Set("userId", xxx)
 	param.UserId = c.GetInt("userId")
 	data, lastPage, total, _ := service.OrderService{}.Lists(&param)
 	response.Success(c, &response.Response{Data: map[string]interface{}{

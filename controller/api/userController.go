@@ -59,8 +59,15 @@ func (this UserController) Del(c *gin.Context) {
 	var delParam service.DelParam
 	err := c.ShouldBindBodyWith(&delParam, binding.JSON)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		tools.GetError(err, delParam)
+		return
 	}
+	// 参数Query中提取的例子
+	//err := c.ShouldBindQuery(&delParam)
+	//if err != nil {
+	//	panic(err)
+	//}
 	service.UserService{}.Del(&delParam)
 
 	response.Success(c, &response.Response{

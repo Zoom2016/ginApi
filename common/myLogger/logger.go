@@ -8,7 +8,7 @@ import (
 
 var Logid string
 var mylog *log.Logger
-var env bool = false
+var env bool = false // 是否为prod环境
 
 func init() {
 	mylog = log.New(LogWrite, "", log.LstdFlags)
@@ -29,6 +29,7 @@ func Printf(msg string, v ...any) {
 
 func Println(msg string) {
 	if !env {
+		// 非prod环境，同时将日志输出到console
 		fmt.Println("logid["+Logid+"] ", msg)
 	}
 	mylog.Println("logid["+Logid+"] ", msg)
